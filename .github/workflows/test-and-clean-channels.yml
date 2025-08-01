@@ -142,46 +142,47 @@ jobs:
           const workingChannels = results.filter(r => r.working).map(r => r.channel);
           const brokenChannels = results.filter(r => !r.working).map(r => r.channel);
           
-          console.log(`\n📊 Cleanup Results:`);
-          console.log(`   ✅ Working: ${workingChannels.length}`);
-          console.log(`   ❌ Broken:  ${brokenChannels.length}`);
+          console.log("\n📊 Cleanup Results:");
+          console.log("   ✅ Working: " + workingChannels.length);
+          console.log("   ❌ Broken:  " + brokenChannels.length);
           
           if (brokenChannels.length > 0) {
-            console.log(`\n❌ Removing broken channels:`);
+            console.log("\n❌ Removing broken channels:");
             brokenChannels.forEach(channel => {
-              console.log(`   - ${channel.name} (${channel.id})`);
+              console.log("   - " + channel.name + " (" + channel.id + ")");
             });
             
             // Update addon.js with only working channels
             const addonContent = readFileSync(join(process.cwd(), 'addon.js'), 'utf-8');
             
             const newChannelsString = workingChannels.map(channel => {
-              return `    {
-        id: '${channel.id}',
-        name: '${channel.name}',
-        description: '${channel.description}',
-        poster: '${channel.poster || ""}',
-        url: '${channel.url}'
-    }`;
+              const poster = channel.poster || "";
+              return "    {\n" +
+                     "        id: '" + channel.id + "',\n" +
+                     "        name: '" + channel.name + "',\n" +
+                     "        description: '" + channel.description + "',\n" +
+                     "        poster: '" + poster + "',\n" +
+                     "        url: '" + channel.url + "'\n" +
+                     "    }";
             }).join(',\n');
             
             const newContent = addonContent.replace(
               /const canales = \[([\s\S]*?)\];/,
-              `const canales = [\n${newChannelsString}\n];`
+              "const canales = [\n" + newChannelsString + "\n];"
             );
             
             writeFileSync(join(process.cwd(), 'addon.js'), newContent);
-            console.log(`\n✅ Removed ${brokenChannels.length} broken channels from addon.js`);
-            console.log(`📝 ${workingChannels.length} working channels remain`);
+            console.log("\n✅ Removed " + brokenChannels.length + " broken channels from addon.js");
+            console.log("📝 " + workingChannels.length + " working channels remain");
             
             // Output for GitHub Actions
-            console.log(`::set-output name=channels_removed::${brokenChannels.length}`);
-            console.log(`::set-output name=channels_remaining::${workingChannels.length}`);
-            console.log(`::set-output name=broken_channel_names::${brokenChannels.map(c => c.name).join(', ')}`);
-            console.log(`::set-output name=changes_made::true`);
+            console.log("::set-output name=channels_removed::" + brokenChannels.length);
+            console.log("::set-output name=channels_remaining::" + workingChannels.length);
+            console.log("::set-output name=broken_channel_names::" + brokenChannels.map(c => c.name).join(', '));
+            console.log("::set-output name=changes_made::true");
           } else {
             console.log('\n🎉 All channels are working!');
-            console.log(`::set-output name=changes_made::false`);
+            console.log("::set-output name=changes_made::false");
           }
         }
 

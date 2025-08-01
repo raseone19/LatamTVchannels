@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import fetch from 'node-fetch';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+const { describe, it, expect } = require('vitest');
+const fetch = require('node-fetch');
+const { readFileSync } = require('fs');
+const { join } = require('path');
 
 // Helper function to extract channels from addon.js
 function getChannelsFromAddon() {

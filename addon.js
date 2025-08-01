@@ -144,55 +144,6 @@ const canales = [
     description: 'Nickelodeon Spain (576p)',
     poster: 'https://images.seeklogo.com/logo-png/43/1/nickelodeon-logo-png_seeklogo-435571.png',
     url: 'http://185.189.225.150:85/nickelodeon/index.m3u8'
-},
-{
-    id: 'canal_caracol',
-    name: 'Canal Caracol',
-    description: 'Canal Caracol Colombia',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Caracol_Televisi%C3%B3n_logo.svg/1200px-Caracol_Televisi%C3%B3n_logo.svg.png',
-    url: 'http://181.177.255.253:8000/play/a05z/index.m3u8'
-},
-{
-    id: 'canal_directv_sports_plus_hd',
-    name: 'Directv Sports + HD',
-    description: 'Directv Sports + HD',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DirecTV_Sports_logo.svg/1200px-DirecTV_Sports_logo.svg.png',
-    url: 'http://181.177.255.253:8000/play/a078/index.m3u8'
-},
-{
-    id: 'canal_directv_sports_2_hd',
-    name: 'Directv Sports 2 HD',
-    description: 'Directv Sports 2 HD',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DirecTV_Sports_logo.svg/1200px-DirecTV_Sports_logo.svg.png',
-    url: 'http://181.177.255.253:8000/play/a076/index.m3u8'
-},
-{
-    id: 'canal_directv_sports_fight_hd',
-    name: 'Directv Sports Fight HD',
-    description: 'Directv Sports Fight HD',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DirecTV_Sports_logo.svg/1200px-DirecTV_Sports_logo.svg.png',
-    url: 'http://181.177.255.253:8000/play/a077/index.m3u8'
-},
-{
-    id: 'canal_directv_sports_hd',
-    name: 'Directv Sports HD',
-    description: 'Directv Sports HD',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DirecTV_Sports_logo.svg/1200px-DirecTV_Sports_logo.svg.png',
-    url: 'http://181.177.255.253:8000/play/a075/index.m3u8'
-},
-{
-    id: 'canal_telemundo',
-    name: 'Telemundo',
-    description: 'Telemundo',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Telemundo_logo_2018.svg/1200px-Telemundo_logo_2018.svg.png',
-    url: 'http://181.177.255.253:8000/play/a05c/index.m3u8'
-},
-{
-    id: 'canal_zona_latina',
-    name: 'Zona Latina',
-    description: 'Zona Latina',
-    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Zona_Latina_logo.svg/1200px-Zona_Latina_logo.svg.png',
-    url: 'http://181.177.255.253:8000/play/a03l/index.m3u8'
 }
 
 ];

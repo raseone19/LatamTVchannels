@@ -4,7 +4,11 @@
   "description": "",
   "main": "addon.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:channels": "vitest run tests/channels.test.js",
+    "test:channels:watch": "vitest tests/channels.test.js",
+    "clean:channels": "node scripts/clean-broken-channels.js"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +18,9 @@
     "express": "^5.1.0",
     "request": "^2.88.2",
     "stremio-addon-sdk": "^1.6.10"
+  },
+  "devDependencies": {
+    "node-fetch": "^2.7.0",
+    "vitest": "^3.2.4"
   }
 }

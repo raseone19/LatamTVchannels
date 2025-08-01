@@ -130,6 +130,20 @@ const canales = [
     description: 'Televen',
     poster: '',
     url: 'https://list.iptvcat.com/my_list/s/623e68f52fc0ed5dda7f816c5ff91096.m3u8'
+},
+{
+    id: 'canal_nickelodeon_us',
+    name: 'Nickelodeon',
+    description: 'Nickelodeon US',
+    poster: 'https://cdn.freebiesupply.com/logos/large/2x/nickelodeon-5-logo-svg-vector.svg',
+    url: 'http://23.237.104.106:8080/USA_NICKELODEON/index.m3u8'
+},
+{
+    id: 'canal_nickelodeon_spain',
+    name: 'Nickelodeon Spain',
+    description: 'Nickelodeon Spain (576p)',
+    poster: 'https://cdn.freebiesupply.com/logos/large/2x/nickelodeon-5-logo-svg-vector.svg',
+    url: 'http://185.189.225.150:85/nickelodeon/index.m3u8'
 }
 
 ];

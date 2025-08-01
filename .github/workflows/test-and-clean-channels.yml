@@ -1,0 +1,242 @@
+name: Test and Clean Channels
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'addon.js'          # Run when addon.js changes
+      - 'scripts/**'        # Run when scripts change
+      - 'tests/**'          # Run when tests change
+      - '.github/workflows/**' # Run when workflow changes
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'addon.js'
+      - 'scripts/**'
+      - 'tests/**'
+  schedule:
+    # Run every day at 6 AM UTC to check for broken channels
+    - cron: '0 6 * * *'
+  workflow_dispatch:     # Allow manual trigger
+
+jobs:
+  test-and-clean-channels:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes back to repo
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run channel availability tests
+      id: test-channels
+      run: |
+        echo "🔍 Testing channel availability..."
+        npm run test:channels > test-output.txt 2>&1 || true
+        
+        # Extract statistics from test output
+        WORKING=$(grep -o "Working: [0-9]*" test-output.txt | grep -o "[0-9]*" || echo "0")
+        BROKEN=$(grep -o "Broken:  [0-9]*" test-output.txt | grep -o "[0-9]*" || echo "0")
+        TOTAL=$((WORKING + BROKEN))
+        
+        echo "working=$WORKING" >> $GITHUB_OUTPUT
+        echo "broken=$BROKEN" >> $GITHUB_OUTPUT
+        echo "total=$TOTAL" >> $GITHUB_OUTPUT
+        
+        echo "📊 Test Results:"
+        echo "   ✅ Working: $WORKING channels"
+        echo "   ❌ Broken:  $BROKEN channels"
+        echo "   📈 Total:   $TOTAL channels"
+        
+        # Show test output for debugging
+        echo "::group::Detailed Test Output"
+        cat test-output.txt
+        echo "::endgroup::"
+
+    - name: Clean broken channels automatically
+      id: clean-channels
+      if: steps.test-channels.outputs.broken != '0'
+      run: |
+        echo "🗑️ Cleaning broken channels..."
+        
+        # Create an automated cleanup script that doesn't require user input
+        cat > auto-clean.js << 'EOF'
+        const fetch = require('node-fetch');
+        const { readFileSync, writeFileSync } = require('fs');
+        const { join } = require('path');
+
+        async function testChannelUrl(url, timeout = 15000) {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), timeout);
+          
+          try {
+            const response = await fetch(url, {
+              method: 'HEAD',
+              signal: controller.signal,
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+              }
+            });
+            
+            clearTimeout(timeoutId);
+            return response.status < 500;
+          } catch (error) {
+            clearTimeout(timeoutId);
+            return false;
+          }
+        }
+
+        function getChannelsFromAddon() {
+          const addonContent = readFileSync(join(process.cwd(), 'addon.js'), 'utf-8');
+          const canalesMatch = addonContent.match(/const canales = \[([\s\S]*?)\];/);
+          if (!canalesMatch) throw new Error('Could not find canales array');
+          
+          const channelRegex = /\{\s*id:\s*['"`]([^'"`]+)['"`],\s*name:\s*['"`]([^'"`]+)['"`],\s*description:\s*['"`]([^'"`]*)['"`],\s*poster:\s*['"`]([^'"`]*)['"`],\s*url:\s*['"`]([^'"`]+)['"`]\s*\}/g;
+          const channels = [];
+          let match;
+          
+          while ((match = channelRegex.exec(canalesMatch[1])) !== null) {
+            channels.push({
+              id: match[1],
+              name: match[2],
+              description: match[3],
+              poster: match[4],
+              url: match[5]
+            });
+          }
+          
+          return channels;
+        }
+
+        async function cleanBrokenChannels() {
+          console.log('🔍 Re-checking channels for cleanup...');
+          
+          const channels = getChannelsFromAddon();
+          const results = [];
+          
+          for (const channel of channels) {
+            process.stdout.write(`Testing ${channel.name}... `);
+            const isWorking = await testChannelUrl(channel.url);
+            
+            if (isWorking) {
+              console.log('✅');
+              results.push({ channel, working: true });
+            } else {
+              console.log('❌');
+              results.push({ channel, working: false });
+            }
+          }
+          
+          const workingChannels = results.filter(r => r.working).map(r => r.channel);
+          const brokenChannels = results.filter(r => !r.working).map(r => r.channel);
+          
+          console.log(`\n📊 Cleanup Results:`);
+          console.log(`   ✅ Working: ${workingChannels.length}`);
+          console.log(`   ❌ Broken:  ${brokenChannels.length}`);
+          
+          if (brokenChannels.length > 0) {
+            console.log(`\n❌ Removing broken channels:`);
+            brokenChannels.forEach(channel => {
+              console.log(`   - ${channel.name} (${channel.id})`);
+            });
+            
+            // Update addon.js with only working channels
+            const addonContent = readFileSync(join(process.cwd(), 'addon.js'), 'utf-8');
+            
+            const newChannelsString = workingChannels.map(channel => {
+              return `    {
+        id: '${channel.id}',
+        name: '${channel.name}',
+        description: '${channel.description}',
+        poster: '${channel.poster || ''}',
+        url: '${channel.url}'
+    }`;
+            }).join(',\n');
+            
+            const newContent = addonContent.replace(
+              /const canales = \[([\s\S]*?)\];/,
+              `const canales = [\n${newChannelsString}\n];`
+            );
+            
+            writeFileSync(join(process.cwd(), 'addon.js'), newContent);
+            console.log(`\n✅ Removed ${brokenChannels.length} broken channels from addon.js`);
+            console.log(`📝 ${workingChannels.length} working channels remain`);
+            
+            // Output for GitHub Actions
+            console.log(`::set-output name=channels_removed::${brokenChannels.length}`);
+            console.log(`::set-output name=channels_remaining::${workingChannels.length}`);
+            console.log(`::set-output name=broken_channel_names::${brokenChannels.map(c => c.name).join(', ')}`);
+            console.log(`::set-output name=changes_made::true`);
+          } else {
+            console.log('\n🎉 All channels are working!');
+            console.log(`::set-output name=changes_made::false`);
+          }
+        }
+
+        cleanBrokenChannels().catch(console.error);
+        EOF
+        
+        node auto-clean.js
+
+    - name: Commit and push cleaned channels
+      if: steps.clean-channels.outputs.changes_made == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action Bot"
+        
+        git add addon.js
+        git commit -m "🤖 auto-cleanup: remove ${{ steps.clean-channels.outputs.channels_removed }} broken channels
+
+        - Removed broken channels: ${{ steps.clean-channels.outputs.broken_channel_names }}
+        - ${{ steps.clean-channels.outputs.channels_remaining }} working channels remain
+        
+        🤖 Automated cleanup by GitHub Actions"
+        
+        git push
+
+    - name: Create summary report
+      if: always()
+      run: |
+        echo "## 📺 Channel Status Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📊 Test Results" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ **Working channels**: ${{ steps.test-channels.outputs.working }}" >> $GITHUB_STEP_SUMMARY
+        echo "- ❌ **Broken channels**: ${{ steps.test-channels.outputs.broken }}" >> $GITHUB_STEP_SUMMARY
+        echo "- 📈 **Total channels**: ${{ steps.test-channels.outputs.total }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ steps.clean-channels.outputs.changes_made }}" == "true" ]]; then
+          echo "### 🗑️ Cleanup Actions Taken" >> $GITHUB_STEP_SUMMARY
+          echo "- **Removed**: ${{ steps.clean-channels.outputs.channels_removed }} broken channels" >> $GITHUB_STEP_SUMMARY
+          echo "- **Remaining**: ${{ steps.clean-channels.outputs.channels_remaining }} working channels" >> $GITHUB_STEP_SUMMARY
+          echo "- **Broken channels removed**: ${{ steps.clean-channels.outputs.broken_channel_names }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Repository updated automatically with cleaned channels**" >> $GITHUB_STEP_SUMMARY
+        elif [[ "${{ steps.test-channels.outputs.broken }}" == "0" ]]; then
+          echo "### ✅ All Channels Working" >> $GITHUB_STEP_SUMMARY
+          echo "🎉 All channels are working properly! No cleanup needed." >> $GITHUB_STEP_SUMMARY
+        else
+          echo "### ℹ️ No Changes Made" >> $GITHUB_STEP_SUMMARY
+          echo "Broken channels detected but cleanup was skipped." >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "---" >> $GITHUB_STEP_SUMMARY
+        echo "*🤖 Automated channel testing completed at $(date)*" >> $GITHUB_STEP_SUMMARY
+
+    - name: Cleanup temporary files
+      if: always()
+      run: |
+        rm -f test-output.txt auto-clean.js

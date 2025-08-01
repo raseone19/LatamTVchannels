@@ -107,7 +107,7 @@ const canales = [
     id: 'canal_disney_channel',
     name: 'Disney Channel',
     description: 'Disney Channel',
-    poster: 'https://logos-world.net/wp-content/uploads/2021/08/Disney-Channel-Logo-2002-2014.png',
+    poster: 'https://i.pinimg.com/736x/ca/5b/0e/ca5b0e426c43b1b1d4fc5ad55dcd8111.jpg',
     url: 'https://list.iptvcat.com/my_list/s/50bb47d21255a5fa4acec80846128711.m3u8'
 },
 {

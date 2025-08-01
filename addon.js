@@ -144,6 +144,146 @@ const canales = [
     description: 'Nickelodeon Spain (576p)',
     poster: 'https://images.seeklogo.com/logo-png/43/1/nickelodeon-logo-png_seeklogo-435571.png',
     url: 'http://185.189.225.150:85/nickelodeon/index.m3u8'
+},
+{
+    id: 'canal_directv_sports',
+    name: 'DIRECTV SPORTS',
+    description: 'DIRECTV SPORTS',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DirecTV_Sports_logo.svg/1200px-DirecTV_Sports_logo.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/1017.m3u8'
+},
+{
+    id: 'canal_directv_sports_2',
+    name: 'DIRECTV SPORTS 2',
+    description: 'DIRECTV SPORTS 2',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DirecTV_Sports_logo.svg/1200px-DirecTV_Sports_logo.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/2863.m3u8'
+},
+{
+    id: 'canal_espn',
+    name: 'ESPN',
+    description: 'ESPN',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/1200px-ESPN_wordmark.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/91.m3u8'
+},
+{
+    id: 'canal_espn_ar',
+    name: 'ESPN (AR)',
+    description: 'ESPN Argentina',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/1200px-ESPN_wordmark.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/2858.m3u8'
+},
+{
+    id: 'canal_espn_2',
+    name: 'ESPN 2',
+    description: 'ESPN 2',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/ESPN2_logo.svg/1200px-ESPN2_logo.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/92.m3u8'
+},
+{
+    id: 'canal_espn_3',
+    name: 'ESPN 3',
+    description: 'ESPN 3',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/ESPN3_Logo.png/1200px-ESPN3_Logo.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/93.m3u8'
+},
+{
+    id: 'canal_espn_3_ar',
+    name: 'ESPN 3 (AR)',
+    description: 'ESPN 3 Argentina',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/ESPN3_Logo.png/1200px-ESPN3_Logo.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/2860.m3u8'
+},
+{
+    id: 'canal_espn_deportes',
+    name: 'ESPN DEPORTES',
+    description: 'ESPN DEPORTES',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/1200px-ESPN_wordmark.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3990.m3u8'
+},
+{
+    id: 'canal_bein_laliga_es',
+    name: 'beIN LaLiga ES',
+    description: 'beIN LaLiga España',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/460.m3u8'
+},
+{
+    id: 'canal_bein_sports_es',
+    name: 'beIN Sports ES',
+    description: 'beIN Sports España',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/442.m3u8'
+},
+{
+    id: 'canal_bein_sports_hd',
+    name: 'beIN Sports HD',
+    description: 'beIN Sports HD',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/473.m3u8'
+},
+{
+    id: 'canal_beinsports_3',
+    name: 'BEINSPORTS 3',
+    description: 'BEINSPORTS 3',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3281.m3u8'
+},
+{
+    id: 'canal_beinsports_4',
+    name: 'BEINSPORTS 4',
+    description: 'BEINSPORTS 4',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3282.m3u8'
+},
+{
+    id: 'canal_beinsports_5',
+    name: 'BEINSPORTS 5',
+    description: 'BEINSPORTS 5',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3283.m3u8'
+},
+{
+    id: 'canal_beinsports_6',
+    name: 'BEINSPORTS 6',
+    description: 'BEINSPORTS 6',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3284.m3u8'
+},
+{
+    id: 'canal_beinsports_7',
+    name: 'BEINSPORTS 7',
+    description: 'BEINSPORTS 7',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3285.m3u8'
+},
+{
+    id: 'canal_beinsports_8',
+    name: 'BEINSPORTS 8',
+    description: 'BEINSPORTS 8',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3286.m3u8'
+},
+{
+    id: 'canal_beinsports_9',
+    name: 'BEINSPORTS 9',
+    description: 'BEINSPORTS 9',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3287.m3u8'
+},
+{
+    id: 'canal_beinsports_10',
+    name: 'BEINSPORTS 10',
+    description: 'BEINSPORTS 10',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/BeIN_Sports_logo_%282017%29.png/1200px-BeIN_Sports_logo_%282017%29.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/3288.m3u8'
+},
+{
+    id: 'canal_movistar_f1_hd',
+    name: 'MOVISTAR F1 HD (ES)',
+    description: 'MOVISTAR F1 HD España',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Movistar_F1_logo.svg/1200px-Movistar_F1_logo.svg.png',
+    url: 'http://158.69.52.43:8000/live/bob/2345/431.m3u8'
 }
 
 ];

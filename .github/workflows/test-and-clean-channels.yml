@@ -160,7 +160,7 @@ jobs:
         id: '${channel.id}',
         name: '${channel.name}',
         description: '${channel.description}',
-        poster: '${channel.poster || ''}',
+        poster: '${channel.poster || ""}',
         url: '${channel.url}'
     }`;
             }).join(',\n');

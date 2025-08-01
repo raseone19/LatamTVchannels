@@ -1,6 +1,16 @@
 const express = require('express');
 const request = require('request');
+const cors = require('cors');
 const app = express();
+
+const corsOptions = {
+    origin: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Accept', 'User-Agent', 'Range'],
+    credentials: true
+};
+
+app.use(cors(corsOptions));
 
 app.get('/stream', (req, res) => {
     const url = req.query.url;

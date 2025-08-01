@@ -1,4 +1,5 @@
 const { addonBuilder, serveHTTP } = require('stremio-addon-sdk');
+const cors = require('cors');
 
 const manifest = {
     id: 'org.miscanales.favoritos',
@@ -157,4 +158,14 @@ builder.defineStreamHandler(({ type, id }) => {
 });
 
 
-serveHTTP(builder.getInterface(), { port: process.env.PORT || 43001 });
+const corsOptions = {
+    origin: ['http://localhost:8080', 'https://app.strem.io', 'https://staging.strem.io', 'https://web.strem.io'],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Accept', 'User-Agent'],
+    credentials: true
+};
+
+serveHTTP(builder.getInterface(), { 
+    port: process.env.PORT || 43001,
+    cors: corsOptions
+});

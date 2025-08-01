@@ -135,14 +135,14 @@ const canales = [
     id: 'canal_nickelodeon_us',
     name: 'Nickelodeon',
     description: 'Nickelodeon US',
-    poster: 'https://www.citypng.com/public/uploads/preview/hd-nickelodeon-nick-splash-logo-icon-png-701751694710415awui6lgjdm.png',
+    poster: 'https://images.seeklogo.com/logo-png/43/1/nickelodeon-logo-png_seeklogo-435571.png',
     url: 'http://23.237.104.106:8080/USA_NICKELODEON/index.m3u8'
 },
 {
     id: 'canal_nickelodeon_spain',
     name: 'Nickelodeon Spain',
     description: 'Nickelodeon Spain (576p)',
-    poster: 'https://www.citypng.com/public/uploads/preview/hd-nickelodeon-nick-splash-logo-icon-png-701751694710415awui6lgjdm.png',
+    poster: 'https://images.seeklogo.com/logo-png/43/1/nickelodeon-logo-png_seeklogo-435571.png',
     url: 'http://185.189.225.150:85/nickelodeon/index.m3u8'
 }
 

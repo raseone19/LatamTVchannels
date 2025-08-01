@@ -107,7 +107,7 @@ const canales = [
     id: 'canal_disney_channel',
     name: 'Disney Channel',
     description: 'Disney Channel',
-    poster: '', // Puedes poner aquí una URL de logo si tienes
+    poster: 'https://logos-world.net/wp-content/uploads/2021/08/Disney-Channel-Logo-2002-2014.png',
     url: 'https://list.iptvcat.com/my_list/s/50bb47d21255a5fa4acec80846128711.m3u8'
 },
 {
@@ -121,7 +121,7 @@ const canales = [
     id: 'canal_globovision',
     name: 'Globovisión',
     description: 'Globovisión',
-    poster: '',
+    poster: 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Logo-Globovisi%C3%B3n.png',
     url: 'https://list.iptvcat.com/my_list/s/589cb889b5f1c80871bb3129a107ca05.m3u8'
 },
 {
@@ -135,14 +135,14 @@ const canales = [
     id: 'canal_nickelodeon_us',
     name: 'Nickelodeon',
     description: 'Nickelodeon US',
-    poster: 'https://cdn.freebiesupply.com/logos/large/2x/nickelodeon-5-logo-svg-vector.svg',
+    poster: 'https://www.citypng.com/public/uploads/preview/hd-nickelodeon-nick-splash-logo-icon-png-701751694710415awui6lgjdm.png',
     url: 'http://23.237.104.106:8080/USA_NICKELODEON/index.m3u8'
 },
 {
     id: 'canal_nickelodeon_spain',
     name: 'Nickelodeon Spain',
     description: 'Nickelodeon Spain (576p)',
-    poster: 'https://cdn.freebiesupply.com/logos/large/2x/nickelodeon-5-logo-svg-vector.svg',
+    poster: 'https://www.citypng.com/public/uploads/preview/hd-nickelodeon-nick-splash-logo-icon-png-701751694710415awui6lgjdm.png',
     url: 'http://185.189.225.150:85/nickelodeon/index.m3u8'
 }
 

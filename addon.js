@@ -6,7 +6,7 @@ const manifest = {
     version: '1.1.1',
     name: 'Favoritos IPTV',
     description: 'Canales IPTV Favoritos',
-    resources: ['catalog', 'stream'],
+    resources: ['catalog', 'meta', 'stream'],
     types: ['tv'],
     idPrefixes: ['canal'],
     catalogs: [{
@@ -136,6 +136,25 @@ builder.defineCatalogHandler(({ type, id }) => {
     return Promise.resolve({ metas });
 });
 
+builder.defineMetaHandler(({ type, id }) => {
+    console.log('Meta request for', id);
+    const canal = canales.find(c => c.id === id);
+    if (!canal || type !== 'tv') return Promise.resolve({ meta: null });
+
+    return Promise.resolve({
+        meta: {
+            id: canal.id,
+            type: 'tv',
+            name: canal.name,
+            description: canal.description,
+            poster: canal.poster || 'https://via.placeholder.com/300x450/000000/FFFFFF?text=' + encodeURIComponent(canal.name),
+            background: canal.poster || 'https://via.placeholder.com/1920x1080/000000/FFFFFF?text=' + encodeURIComponent(canal.name),
+            genres: ['IPTV', 'Live TV'],
+            runtime: '24/7 Live Stream',
+            year: new Date().getFullYear()
+        }
+    });
+});
 
 builder.defineStreamHandler(({ type, id }) => {
     console.log('Stream request for', id);
@@ -146,20 +165,13 @@ builder.defineStreamHandler(({ type, id }) => {
         streams: [{
             title: canal.name,
             url: canal.url
-        }],
-        meta: {
-            id: canal.id,
-            type: 'tv',
-            name: canal.name,
-            description: canal.description,
-            poster: canal.poster
-        }
+        }]
     });
 });
 
 
 const corsOptions = {
-    origin: ['http://localhost:8080', 'https://app.strem.io', 'https://staging.strem.io', 'https://web.strem.io'],
+    origin: ['http://localhost:8080', 'https://app.strem.io', 'https://staging.strem.io', 'https://web.strem.io', 'capacitor://localhost', 'ionic://localhost'],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Accept', 'User-Agent'],
     credentials: true

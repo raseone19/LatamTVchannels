@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const manifest = {
     id: 'org.miscanales.favoritos',
-    version: '1.1.1',
+    version: '1.1.2',
     name: 'Favoritos IPTV',
     description: 'Canales IPTV Favoritos',
     resources: ['catalog', 'meta', 'stream'],
@@ -12,8 +12,20 @@ const manifest = {
     catalogs: [{
         type: 'tv',
         id: 'favoritos',
-        name: 'Favoritos'
-    }]
+        name: 'Favoritos',
+        extra: [
+            {
+                name: 'skip',
+                isRequired: false
+            }
+        ]
+    }],
+    behaviorHints: {
+        adult: false,
+        p2p: false,
+        configurable: false,
+        configurationRequired: false
+    }
 };
 
 const builder = new addonBuilder(manifest);
@@ -122,17 +134,26 @@ const canales = [
 
 ];
 
-builder.defineCatalogHandler(({ type, id }) => {
-    if (type !== 'tv' || id !== 'favoritos') return Promise.resolve({ metas: [] });
+builder.defineCatalogHandler(({ type, id, extra }) => {
+    console.log('Catalog request:', { type, id, extra });
+    
+    if (type !== 'tv' || id !== 'favoritos') {
+        console.log('Invalid catalog request');
+        return Promise.resolve({ metas: [] });
+    }
 
-    const metas = canales.map(c => ({
+    const skip = parseInt(extra?.skip) || 0;
+    const metas = canales.slice(skip).map(c => ({
         id: c.id,
         type: 'tv',
         name: c.name,
         description: c.description,
-        poster: c.poster
+        poster: c.poster || 'https://via.placeholder.com/300x450/000000/FFFFFF?text=' + encodeURIComponent(c.name),
+        genres: ['IPTV', 'Live TV'],
+        releaseInfo: 'Live Stream'
     }));
 
+    console.log(`Returning ${metas.length} metas`);
     return Promise.resolve({ metas });
 });
 
@@ -171,10 +192,11 @@ builder.defineStreamHandler(({ type, id }) => {
 
 
 const corsOptions = {
-    origin: ['http://localhost:8080', 'https://app.strem.io', 'https://staging.strem.io', 'https://web.strem.io', 'capacitor://localhost', 'ionic://localhost'],
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Accept', 'User-Agent'],
-    credentials: true
+    origin: true,
+    methods: ['GET', 'POST', 'OPTIONS', 'HEAD'],
+    allowedHeaders: ['Content-Type', 'Accept', 'User-Agent', 'Authorization', 'X-Requested-With'],
+    credentials: false,
+    optionsSuccessStatus: 200
 };
 
 serveHTTP(builder.getInterface(), { 
